@@ -1,0 +1,28 @@
+#!/bin/sh /etc/rc.common
+
+USE_PROCD=1
+
+START=99
+STOP=10
+
+# SERVICE_USE_PID=1
+# SERVICE_DAEMONIZE=1
+# SERVICE_WRITE_PID=1
+
+DAEMON=/bin/spoofdpi
+DAEMON_OPTS=`[ -f /etc/spoofdpi/spoofdpi.conf ] && cat /etc/spoofdpi/spoofdpi.conf`
+
+start_service() {
+    procd_open_instance
+    procd_set_param command $DAEMON $DAEMON_OPTS
+    procd_set_param respawn
+    procd_set_param stdout 1
+    procd_set_param stderr 1
+    procd_close_instance
+}
+
+reload_service() {
+    echo "Reloading spoofdpi service"
+    stop
+    start
+}
