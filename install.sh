@@ -27,7 +27,7 @@ FILE_URL="${BASE_URL}/${FILENAME}"
 
 if curl --output /dev/null --silent --head --fail "$FILE_URL"; then
     echo "Downloading ${FILENAME}..."
-    curl --create-dirs -O --output-dir $TEMP_DIR $FILE_URL
+    (cd $TEMP_DIR && curl -L -O "$FILE_URL")
     echo "Binary ${FILENAME} successful downloaded."
 else
     echo "Binary ${FILENAME} not found."
